@@ -3,10 +3,10 @@ package edu.gorb.seaport.util;
 public class ShipIdGenerator {
     private static int counter;
 
-    private ShipIdGenerator(){
+    private ShipIdGenerator() {
     }
 
-    public static int generateId(){
+    public static int generateId() {
         return ++counter;
     }
 }

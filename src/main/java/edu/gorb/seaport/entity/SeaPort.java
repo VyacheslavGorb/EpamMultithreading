@@ -16,6 +16,7 @@ public class SeaPort {
     private static final Logger logger = LogManager.getLogger();
     private static SeaPort instance;
     private static final AtomicBoolean isInitialized = new AtomicBoolean(false);
+    private static final String PROPERTY_FILE_PATH = "property/sea_port.properties";
     private static final double MAX_LOAD_FACTOR = 0.75;
     private static final double MIN_LOAD_FACTOR = 0.25;
     private static final int TIMER_MILLISECONDS_DELAY = 500;
@@ -35,17 +36,12 @@ public class SeaPort {
 
 
     private SeaPort() {
-        InputStream propertyFileStream =
-                getClass().getClassLoader().getResourceAsStream("property/sea_port.properties");
-
-        if (propertyFileStream == null) {
-            //TODO throw exception?
-        }
+        InputStream propertyFileStream = getClass().getClassLoader().getResourceAsStream(PROPERTY_FILE_PATH);
         Properties properties = new Properties();
         try {
             properties.load(propertyFileStream);
         } catch (IOException e) {
-            //TODO throw exception?
+            logger.log(Level.WARN, "Input stream is valid");
         }
         String capacityString = properties.getProperty("capacity");
         String pierAmountString = properties.getProperty("pier_amount");

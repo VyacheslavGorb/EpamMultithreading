@@ -20,7 +20,7 @@ public class Main {
 
     public static void main(String[] args) {
         URL fileURL = Main.class.getClassLoader().getResource(SHIP_FILE_PATH);
-        if(fileURL == null){
+        if (fileURL == null) {
             logger.log(Level.FATAL, "File {} does not exist", SHIP_FILE_PATH);
             return;
         }

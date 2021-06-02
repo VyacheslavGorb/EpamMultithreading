@@ -1,6 +1,6 @@
 package edu.gorb.seaport.exception;
 
-public class SeaPortException extends Exception{
+public class SeaPortException extends Exception {
     public SeaPortException() {
     }
 
