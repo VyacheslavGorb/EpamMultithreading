@@ -4,10 +4,9 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -19,6 +18,8 @@ public class SeaPort {
     private static final AtomicBoolean isInitialized = new AtomicBoolean(false);
     private static final double MAX_LOAD_FACTOR = 0.75;
     private static final double MIN_LOAD_FACTOR = 0.25;
+    private static final int TIMER_MILLISECONDS_DELAY = 500;
+    private static final int TIMER_MILLISECONDS_INTERVAL = 200;
     private Deque<Pier> freePiers = new ArrayDeque<>();
     private Deque<Pier> busyPiers = new ArrayDeque<>();
     private Lock pierLocking = new ReentrantLock(true);
@@ -26,9 +27,7 @@ public class SeaPort {
     private Lock containerStorageLocking = new ReentrantLock(true);
     private Condition unloadAvailableCondition = containerStorageLocking.newCondition();
     private Condition loadAvailableCondition = containerStorageLocking.newCondition();
-    private final int TIMER_MILLISECONDS_DELAY = 500;
-    private final int TIMER_MILLISECONDS_INTERVAL = 200;
-    private final int PIER_COUNT;
+    private final int PIER_AMOUNT;
     private final int CAPACITY;
     private int currentContainerAmount;
     private int waitingForLoadAmount;
@@ -36,11 +35,26 @@ public class SeaPort {
 
 
     private SeaPort() {
-        //TODO Read from file
-        CAPACITY = 5;
-        currentContainerAmount = 4;
-        PIER_COUNT = 7;
-        for (int i = 0; i < PIER_COUNT; i++) {
+        InputStream propertyFileStream =
+                getClass().getClassLoader().getResourceAsStream("property/sea_port.properties");
+
+        if (propertyFileStream == null) {
+            //TODO throw exception?
+        }
+        Properties properties = new Properties();
+        try {
+            properties.load(propertyFileStream);
+        } catch (IOException e) {
+            //TODO throw exception?
+        }
+        String capacityString = properties.getProperty("capacity");
+        String pierAmountString = properties.getProperty("pier_amount");
+        String ContainerAmountString = properties.getProperty("container_amount");
+        CAPACITY = Integer.parseInt(capacityString);
+        PIER_AMOUNT = Integer.parseInt(pierAmountString);
+        currentContainerAmount = Integer.parseInt(ContainerAmountString);
+
+        for (int i = 0; i < PIER_AMOUNT; i++) {
             freePiers.addLast(new Pier());
         }
         setTrainTask();
@@ -158,7 +172,7 @@ public class SeaPort {
                         unloadAvailableCondition.signal();
                     }
 
-                    logger.log(Level.DEBUG, "Timer\n");
+                    logger.log(Level.DEBUG, "Timer");
                 } finally {
                     containerStorageLocking.unlock();
                 }

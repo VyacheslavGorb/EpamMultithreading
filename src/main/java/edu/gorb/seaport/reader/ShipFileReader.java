@@ -1,6 +1,5 @@
 package edu.gorb.seaport.reader;
 
-
 import edu.gorb.seaport.exception.SeaPortException;
 import edu.gorb.seaport.validator.PortFileValidator;
 import org.apache.logging.log4j.Level;
@@ -15,8 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-//TODO
-public class PortFileReader {
+public class ShipFileReader {
     private static final Logger logger = LogManager.getLogger();
 
     public List<String> readFile(String filePathString) throws SeaPortException {
@@ -32,7 +30,7 @@ public class PortFileReader {
             logger.log(Level.ERROR, "Error while reading file {}", filePathString);
             throw new SeaPortException("Error while reading file " + filePathString);
         }
-        logger.log(Level.INFO, "Text was read in file: {}", filePathString);
+        logger.log(Level.INFO, "Ships were read successfully in file: {}", filePathString);
         return textLines;
     }
 }
