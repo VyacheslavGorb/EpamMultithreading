@@ -1,7 +1,7 @@
 package edu.gorb.seaport.reader;
 
 import edu.gorb.seaport.exception.SeaPortException;
-import edu.gorb.seaport.validator.PortFileValidator;
+import edu.gorb.seaport.validator.SeaPortFileValidator;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +18,7 @@ public class ShipFileReader {
     private static final Logger logger = LogManager.getLogger();
 
     public List<String> readFile(String filePathString) throws SeaPortException {
-        if (!PortFileValidator.isValidFile(filePathString)) {
+        if (!SeaPortFileValidator.isValidFile(filePathString)) {
             logger.log(Level.ERROR, "File path represents invalid file");
             throw new SeaPortException("File path represents invalid file");
         }

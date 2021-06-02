@@ -2,8 +2,8 @@ package edu.gorb.seaport.validator;
 
 import java.io.File;
 
-public class PortFileValidator {
-    private PortFileValidator() {
+public class SeaPortFileValidator {
+    private SeaPortFileValidator() {
     }
 
     public static boolean isValidFile(String filePathString) {
