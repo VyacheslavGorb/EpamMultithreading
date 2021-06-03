@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ShapeParser {
+public class ShipParser {
     private static final Logger logger = LogManager.getLogger();
 
     public List<Ship> parseShips(List<String> shipLines) throws SeaPortException {
