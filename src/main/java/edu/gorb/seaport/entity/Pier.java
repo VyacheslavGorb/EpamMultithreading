@@ -18,7 +18,7 @@ public class Pier {
     public void processShip(Ship ship) {
         logger.log(Level.INFO, "Pier {} processes ship {}: Started", pierId, ship.getShipId());
         try {
-            TimeUnit.MILLISECONDS.sleep(100);
+            TimeUnit.MILLISECONDS.sleep(100); // TODO
         } catch (InterruptedException e) {
             logger.log(Level.ERROR, "Error while processing ship : {}", e.getMessage());
             Thread.currentThread().interrupt();
